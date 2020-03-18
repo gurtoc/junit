@@ -2,6 +2,8 @@ package testing;
 
 import org.junit.jupiter.api.Test;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MealTest {
@@ -16,6 +18,7 @@ class MealTest {
 
         //then
         assertEquals(13,discounterPrice);
+        assertThat(discounterPrice,equalTo(13));
 
     }
 
@@ -27,6 +30,7 @@ class MealTest {
 
         //then
         assertSame(meal,meal1);
+        assertThat(meal,sameInstance(meal1));
     }
 
     @Test
@@ -37,6 +41,7 @@ class MealTest {
 
         //then
         assertNotSame(meal,meal1);
+        assertThat(meal,not(sameInstance(meal1)));
     }
 
     @Test
