@@ -1,5 +1,7 @@
 package testing;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Array;
@@ -11,6 +13,20 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class OrderTest {
+
+    private Order order;
+
+    @BeforeEach
+    void initializeOrder() {
+        System.out.println("BeforeEach test");
+        order = new Order();
+    }
+
+    @AfterEach
+    void cleanUp() {
+        System.out.println("AfterEach test");
+        order.cancel();
+    }
 
     @Test
     void testArrayEquals() {
@@ -39,7 +55,7 @@ class OrderTest {
         //given
         Meal meal = new Meal(25, "Pizza");
         Meal meal1 = new Meal(10, "Kaszanka");
-        Order order = new Order();
+
 
         //when
         order.addMealToOrder(meal);
@@ -55,7 +71,7 @@ class OrderTest {
     void removeMealToOrderShouldDecreaseOrderSize() {
         //given
         Meal meal1 = new Meal(10, "Kaszanka");
-        Order order = new Order();
+
 
         //when
         order.addMealToOrder(meal1);
@@ -71,28 +87,28 @@ class OrderTest {
         //given
         Meal meal = new Meal(25, "Pizza");
         Meal meal1 = new Meal(10, "Kaszanka");
-        Order order = new Order();
+
 
         //when
         order.addMealToOrder(meal);
         order.addMealToOrder(meal1);
 
         //then
-        assertThat(order.getMealList(),contains(meal,meal1));
-        assertThat(order.getMealList(), containsInAnyOrder(meal1,meal));
+        assertThat(order.getMealList(), contains(meal, meal1));
+        assertThat(order.getMealList(), containsInAnyOrder(meal1, meal));
     }
 
     @Test
-    void testIfTwoMealListsAreTheSame(){
+    void testIfTwoMealListsAreTheSame() {
         //given
         Meal meal = new Meal(25, "Pizza");
         Meal meal1 = new Meal(10, "Kaszanka");
 
         //when
-        List<Meal> meals = Arrays.asList(meal,meal1);
-        List<Meal> meals2 = Arrays.asList(meal,meal1);
+        List<Meal> meals = Arrays.asList(meal, meal1);
+        List<Meal> meals2 = Arrays.asList(meal, meal1);
 
-        assertThat(meals,is(meals2));
+        assertThat(meals, is(meals2));
     }
 
 }
