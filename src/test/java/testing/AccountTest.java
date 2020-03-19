@@ -1,27 +1,29 @@
 package testing;
 
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assumptions.assumingThat;
 
 class AccountTest {
 
     @Test
-    public void newAccountShouldBeNotActivated(){
+    public void newAccountShouldBeNotActivated() {
         //given
         Account account = new Account();
 
         //then
         assertFalse(account.isActive());
 
-        assertThat(account.isActive(),equalTo(false));
-        assertThat(account.isActive(),is(false));
+        assertThat(account.isActive(), equalTo(false));
+        assertThat(account.isActive(), is(false));
     }
 
     @Test
-    public void newAccountShouldBeActivated(){
+    public void newAccountShouldBeActivated() {
         //given
         Account account = new Account();
 
@@ -29,12 +31,12 @@ class AccountTest {
         account.activate();
         assertTrue(account.isActive());
 
-        assertThat(account.isActive(),equalTo(true));
-        assertThat(account.isActive(),is(equalTo(true)));
+        assertThat(account.isActive(), equalTo(true));
+        assertThat(account.isActive(), is(equalTo(true)));
     }
 
     @Test
-    void newlyCreatedAccountShouldNotHaveDefDeliveryAdressSet(){
+    void newlyCreatedAccountShouldNotHaveDefDeliveryAdressSet() {
         //given
         Account account = new Account();
 
@@ -43,14 +45,14 @@ class AccountTest {
 
         //then
         assertNull(address);
-        assertThat(address,nullValue());
+        assertThat(address, nullValue());
 
     }
 
     @Test
-    void newlyCreatedAccountShouldHaveDeliveryAdressSet(){
+    void newlyCreatedAccountShouldHaveDeliveryAdressSet() {
         //given
-        Address address = new Address("Kolejowa","86");
+        Address address = new Address("Kolejowa", "86");
         Account account = new Account();
         account.setDefaultDeliveryAdress(address);
 
@@ -59,7 +61,24 @@ class AccountTest {
 
         //then
         assertNotNull(defaultAdress);
-        assertThat(defaultAdress,is(notNullValue()));
+        assertThat(defaultAdress, is(notNullValue()));
+    }
+
+    @RepeatedTest(25)
+    void newAccountWithNotNullAddressShouldBeActive() {
+        //given
+        Address address = new Address("Kolejowa", "86");
+
+        //when
+        Account account = new Account(address);
+
+        //then
+        assumingThat(address != null, () -> {
+                    assertTrue(account.isActive());
+
+        });
+
+
     }
 
 }
