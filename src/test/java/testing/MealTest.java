@@ -1,13 +1,20 @@
 package testing;
 
+import org.junit.jupiter.api.DynamicTest;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestFactory;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.function.Executable;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -95,12 +102,56 @@ class MealTest {
 
     @ParameterizedTest
     @MethodSource("createCakeNames")
-    void cakeNameShouldEndWithCake(String name){
+    void cakeNameShouldEndWithCake(String name) {
         assertThat(name, endsWith("Cake"));
     }
 
-    private static Stream<String> createCakeNames(){
-        List<String> cakeList = Arrays.asList("FruitCake","CarrotCake","CupCake");
+    private static Stream<String> createCakeNames() {
+        List<String> cakeList = Arrays.asList("FruitCake", "CarrotCake", "CupCake");
         return cakeList.stream();
+    }
+
+    @ExtendWith(IAExceptionIgnoreExtension.class)
+    @ParameterizedTest
+    @ValueSource(ints = {1, 5, 8, 9})
+    void mealPriceShouldBeLowerThan10(int price) {
+        if (price > 5) {
+            throw new IllegalArgumentException();
+        }
+
+        assertThat(price, lessThan(20));
+    }
+
+
+    @Tag("fries")
+    @TestFactory
+    Collection<DynamicTest> calculateMealPrices() {
+        Order order = new Order();
+        order.addMealToOrder(new Meal(10, 2, "Hamburger"));
+        order.addMealToOrder(new Meal(7, 4, "Fries"));
+        order.addMealToOrder(new Meal(22, 3, "Pizza"));
+
+        Collection<DynamicTest> dynamicTests = new ArrayList<>();
+
+        for(int i = 0; i < order.getMealList().size(); i++) {
+
+            int price = order.getMealList().get(i).getPrice();
+            int quantity = order.getMealList().get(i).getQuantity();
+
+            Executable executable = () -> {
+                assertThat(calculatePrice(price, quantity), lessThan(67));
+            };
+
+            String name = "Test name: " + i;
+            DynamicTest dynamicTest = DynamicTest.dynamicTest(name, executable);
+            dynamicTests.add(dynamicTest);
+        }
+
+        return dynamicTests;
+    }
+
+
+    private int calculatePrice(int price, int quantity) {
+        return price * quantity;
     }
 }
