@@ -113,4 +113,42 @@ class OrderTest {
         assertThat(meals, is(meals2));
     }
 
+    @Test
+    void orderTotalPriceShouldNotExceedsMaxIntValue() {
+        //given
+        Meal meal1 = new Meal(Integer.MAX_VALUE, "Burger");
+        Meal meal2 = new Meal(Integer.MAX_VALUE, "Sandwich");
+
+        //when
+        order.addMealToOrder(meal1);
+        order.addMealToOrder(meal2);
+
+        //then
+        System.out.println(order.totalPrice());
+    }
+
+    @Test
+    void emptyOrderTotalPriceShouldEqualZero() {
+        //given
+        //Order is created in BeforeEach
+
+        //then
+        assertThat(order.totalPrice(),is(0));
+    }
+
+    @Test
+    void cancelingOrderShouldRemoveAllItemsFromMealsList() {
+        //given
+        Meal meal1 = new Meal(15, "Burger");
+        Meal meal2 = new Meal(5, "Sandwich");
+
+        //when
+        order.addMealToOrder(meal1);
+        order.addMealToOrder(meal2);
+        order.cancel();
+
+        //then
+        assertThat(order.getMealList().size(), is(0));
+    }
+
 }

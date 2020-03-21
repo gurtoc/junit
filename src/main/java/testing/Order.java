@@ -18,7 +18,7 @@ public class Order {
         return mealList;
     }
 
-    public void cancel(){
+    public void cancel() {
         this.mealList.clear();
     }
 
@@ -27,5 +27,17 @@ public class Order {
         return "Order{" +
                 "mealList=" + mealList +
                 '}';
+    }
+
+
+    int totalPrice() {
+
+        int sum = this.mealList.stream().mapToInt(meal -> meal.getPrice()).sum();
+
+        if (sum < 0) {
+            throw new IllegalStateException("Price limit exceeded");
+        } else {
+            return sum;
+        }
     }
 }

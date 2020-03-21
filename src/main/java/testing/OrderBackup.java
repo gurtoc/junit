@@ -17,11 +17,18 @@ public class OrderBackup {
         writer = new BufferedWriter(outputStreamWriter);
     }
 
-    void backupOrder(Order order) throws IOException {
-        writer.append(order.toString());
-    }
+
 
     void closeFile() throws IOException {
         writer.close();
+    }
+
+    void backupOrder(Order order) throws IOException {
+
+        if(writer == null) {
+            throw new IOException("Backup file not created");
+        }
+
+        writer.append(order.toString());
     }
 }
