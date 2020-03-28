@@ -3,9 +3,7 @@ package testing.order;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import testing.Meal;
-import testing.order.Order;
-import testing.order.OrderBackup;
+import testing.meal.Meal;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

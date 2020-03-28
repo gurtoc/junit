@@ -1,4 +1,4 @@
-package testing;
+package testing.meal;
 
 import java.util.Objects;
 

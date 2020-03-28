@@ -6,7 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import testing.extensions.BeforeAfterExtension;
-import testing.Meal;
+import testing.meal.Meal;
 
 import java.util.Arrays;
 import java.util.List;
@@ -115,19 +115,7 @@ class OrderTest {
         assertThat(meals, is(meals2));
     }
 
-    @Test
-    void orderTotalPriceShouldNotExceedsMaxIntValue() {
-        //given
-        Meal meal1 = new Meal(Integer.MAX_VALUE, "Burger");
-        Meal meal2 = new Meal(Integer.MAX_VALUE, "Sandwich");
 
-        //when
-        order.addMealToOrder(meal1);
-        order.addMealToOrder(meal2);
-
-        //then
-        System.out.println(order.totalPrice());
-    }
 
     @Test
     void emptyOrderTotalPriceShouldEqualZero() {

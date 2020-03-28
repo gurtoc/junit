@@ -1,4 +1,4 @@
-package testing;
+package testing.meal;
 
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.Tag;
@@ -13,6 +13,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import testing.extensions.IAExceptionIgnoreExtension;
+import testing.meal.Meal;
 import testing.order.Order;
 
 import java.util.ArrayList;
